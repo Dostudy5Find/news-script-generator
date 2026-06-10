@@ -1,16 +1,36 @@
+from docx import Document
+
+
 def generate_news_script(title, content):
-    script = f"""
-【校园新闻播报稿】
+    return f"""【校园新闻播报稿】
 
-各位老师、同学们，大家好。下面为大家播报一则校园新闻。
+各位老师、同学们，大家好。
 
-本条新闻的主题是：{title}
+下面为大家播报一则校园新闻。
+
+新闻标题：
+
+{title}
+
+新闻内容：
 
 {content}
 
-以上就是本条新闻的主要内容。感谢大家收听。
+以上就是本条新闻的全部内容。
+感谢大家收听。
 """
-    return script
+
+
+def save_to_word(text):
+    doc = Document()
+
+    doc.add_heading('校园新闻播报稿', level=1)
+
+    for line in text.split("\n"):
+        if line.strip():
+            doc.add_paragraph(line)
+
+    doc.save("output.docx")
 
 
 def main():
@@ -19,13 +39,10 @@ def main():
 
     result = generate_news_script(title, content)
 
-    print("\n生成结果：")
-    print(result)
+    save_to_word(result)
 
-    with open("output.txt", "w", encoding="utf-8") as f:
-        f.write(result)
-
-    print("已生成 output.txt 文件")
+    print("生成成功")
+    print("已生成 output.docx")
 
 
 if __name__ == "__main__":
